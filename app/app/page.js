@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+'use client'
+  import React, { useState } from 'react';
 import { ShoppingBag, Heart, Clock, Wheat, Mail, Phone, MapPin, Instagram, Menu, X } from 'lucide-react';
 
 export default function SourdoughWebsite() {
