@@ -4,10 +4,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const links = [
+const mainLinks = [
   { href: "/", label: "Home" },
+  { href: "/shop", label: "Shop" },
+  { href: "/memberships", label: "Subscriptions" },
   { href: "/our-story", label: "Our Story" },
-  { href: "/contact", label: "Contact" },
 ];
 
 export default function Header() {
@@ -25,6 +26,12 @@ export default function Header() {
   const isActive = (href) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
+  const linkClass = (href) =>
+    "text-sm transition-colors " +
+    (isActive(href)
+      ? "text-[var(--ink)] border-b-2 border-[var(--ochre)] pb-1"
+      : "text-[var(--ink-soft)] hover:text-[var(--ink)]");
+
   return (
     <header
       className={
@@ -32,50 +39,32 @@ export default function Header() {
         (scrolled ? "border-[var(--line)] shadow-sm" : "border-transparent")
       }
     >
-      <nav className="mx-auto flex max-w-5xl items-center justify-between px-6 py-3">
+      <nav className="mx-auto flex max-w-5xl items-center gap-8 px-6 py-4">
         <Link href="/" className="font-display text-2xl text-[var(--ink)]">
           FlowerDough
         </Link>
 
-        {/* Desktop nav */}
-        <div className="hidden items-center gap-2 md:flex">
-          {links.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              className={
-                "rounded-full px-4 py-2 text-sm transition-colors " +
-                (isActive(l.href)
-                  ? "bg-[#F0EADE] text-[var(--ink)]"
-                  : "text-[var(--ink-soft)] hover:bg-[#F0EADE]")
-              }
-            >
+        {/* Main links */}
+        <div className="hidden items-center gap-7 md:flex">
+          {mainLinks.map((l) => (
+            <Link key={l.href} href={l.href} className={linkClass(l.href)}>
               {l.label}
             </Link>
           ))}
-          <Link
-            href="/memberships"
-            className={
-              "rounded-full border border-[var(--ink)] px-4 py-2 text-sm transition-colors " +
-              (isActive("/memberships")
-                ? "bg-[var(--ink)] text-[var(--bone)]"
-                : "text-[var(--ink)] hover:bg-[var(--ink)] hover:text-[var(--bone)]")
-            }
-          >
-            Subscriptions
-          </Link>
-          <Link
-            href="/shop"
-            className="rounded-full bg-[var(--ink)] px-5 py-2 text-sm text-[var(--bone)] transition-opacity hover:opacity-90"
-          >
-            Shop
-          </Link>
         </div>
+
+        {/* Contact — far right, separated by a divider */}
+        <Link
+          href="/contact"
+          className={"ml-auto hidden border-l border-[var(--line)] pl-6 md:block " + linkClass("/contact")}
+        >
+          Contact
+        </Link>
 
         {/* Mobile toggle */}
         <button
           onClick={() => setOpen((v) => !v)}
-          className="rounded-full border border-[var(--line)] px-3 py-2 text-sm text-[var(--ink)] md:hidden"
+          className="ml-auto rounded-full border border-[var(--line)] px-3 py-2 text-sm text-[var(--ink)] md:hidden"
           aria-label="Toggle menu"
           aria-expanded={open}
         >
@@ -86,22 +75,24 @@ export default function Header() {
       {/* Mobile menu */}
       {open && (
         <div className="border-t border-[var(--line)] bg-[var(--bone)] px-6 py-4 md:hidden">
-          <div className="flex flex-col gap-1">
-            {[...links, { href: "/memberships", label: "Subscriptions" }, { href: "/shop", label: "Shop" }].map((l) => (
+          <div className="flex flex-col gap-3">
+            {mainLinks.map((l) => (
               <Link
                 key={l.href}
                 href={l.href}
                 onClick={() => setOpen(false)}
-                className={
-                  "rounded-full px-4 py-2.5 text-sm transition-colors " +
-                  (isActive(l.href)
-                    ? "bg-[#F0EADE] text-[var(--ink)]"
-                    : "text-[var(--ink-soft)] hover:bg-[#F0EADE]")
-                }
+                className={linkClass(l.href)}
               >
                 {l.label}
               </Link>
             ))}
+            <Link
+              href="/contact"
+              onClick={() => setOpen(false)}
+              className={"mt-1 border-t border-[var(--line)] pt-3 " + linkClass("/contact")}
+            >
+              Contact
+            </Link>
           </div>
         </div>
       )}
