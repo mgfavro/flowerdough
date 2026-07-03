@@ -3,7 +3,7 @@ import { ChevronRight } from 'lucide-react';
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative">
         <div className="max-w-6xl mx-auto px-6 lg:px-8 py-32 lg:py-40">

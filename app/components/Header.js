@@ -1,78 +1,110 @@
-'use client'
+"use client";
 
-import React, { useState } from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { Menu, X } from 'lucide-react';
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const links = [
-  { href: '/', label: 'HOME' },
-  { href: '/our-story', label: 'OUR STORY' },
-  { href: '/shop', label: 'SHOP' },
-  { href: '/memberships', label: 'MEMBERSHIPS' },
-  { href: '/contact', label: 'CONTACT' },
+  { href: "/", label: "Home" },
+  { href: "/our-story", label: "Our Story" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export default function Header() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
+  const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
 
-  const isActive = (href) => pathname === href;
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const isActive = (href) =>
+    href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   return (
-    <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
-      <div className="max-w-6xl mx-auto px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
-          <Link href="/" className="flex items-center">
-            <span className="text-2xl font-light tracking-wider text-gray-900">FLOWER DOUGH</span>
-          </Link>
+    <header
+      className={
+        "sticky top-0 z-50 border-b bg-[var(--bone)] transition-shadow " +
+        (scrolled ? "border-[var(--line)] shadow-sm" : "border-transparent")
+      }
+    >
+      <nav className="mx-auto flex max-w-5xl items-center justify-between px-6 py-3">
+        <Link href="/" className="font-display text-2xl text-[var(--ink)]">
+          FlowerDough
+        </Link>
 
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-10">
-            {links.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={
-                  isActive(link.href)
-                    ? 'text-sm tracking-wide text-gray-900 border-b-2 border-gray-900 pb-1'
-                    : 'text-sm tracking-wide text-gray-600 hover:text-gray-900 transition'
-                }
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden text-gray-900"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        {/* Desktop nav */}
+        <div className="hidden items-center gap-2 md:flex">
+          {links.map((l) => (
+            <Link
+              key={l.href}
+              href={l.href}
+              className={
+                "rounded-full px-4 py-2 text-sm transition-colors " +
+                (isActive(l.href)
+                  ? "bg-[#F0EADE] text-[var(--ink)]"
+                  : "text-[var(--ink-soft)] hover:bg-[#F0EADE]")
+              }
+            >
+              {l.label}
+            </Link>
+          ))}
+          <Link
+            href="/memberships"
+            className={
+              "rounded-full border border-[var(--ink)] px-4 py-2 text-sm transition-colors " +
+              (isActive("/memberships")
+                ? "bg-[var(--ink)] text-[var(--bone)]"
+                : "text-[var(--ink)] hover:bg-[var(--ink)] hover:text-[var(--bone)]")
+            }
           >
-            {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
+            Subscriptions
+          </Link>
+          <Link
+            href="/shop"
+            className="rounded-full bg-[var(--ink)] px-5 py-2 text-sm text-[var(--bone)] transition-opacity hover:opacity-90"
+          >
+            Shop
+          </Link>
         </div>
 
-        {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <div className="md:hidden pb-6 space-y-4">
-            {links.map((link) => (
+        {/* Mobile toggle */}
+        <button
+          onClick={() => setOpen((v) => !v)}
+          className="rounded-full border border-[var(--line)] px-3 py-2 text-sm text-[var(--ink)] md:hidden"
+          aria-label="Toggle menu"
+          aria-expanded={open}
+        >
+          {open ? "Close" : "Menu"}
+        </button>
+      </nav>
+
+      {/* Mobile menu */}
+      {open && (
+        <div className="border-t border-[var(--line)] bg-[var(--bone)] px-6 py-4 md:hidden">
+          <div className="flex flex-col gap-1">
+            {[...links, { href: "/memberships", label: "Subscriptions" }, { href: "/shop", label: "Shop" }].map((l) => (
               <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
+                key={l.href}
+                href={l.href}
+                onClick={() => setOpen(false)}
                 className={
-                  isActive(link.href)
-                    ? 'block text-sm tracking-wide text-gray-900'
-                    : 'block text-sm tracking-wide text-gray-600'
+                  "rounded-full px-4 py-2.5 text-sm transition-colors " +
+                  (isActive(l.href)
+                    ? "bg-[#F0EADE] text-[var(--ink)]"
+                    : "text-[var(--ink-soft)] hover:bg-[#F0EADE]")
                 }
               >
-                {link.label}
+                {l.label}
               </Link>
             ))}
           </div>
-        )}
-      </div>
-    </nav>
+        </div>
+      )}
+    </header>
   );
 }
