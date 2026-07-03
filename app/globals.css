@@ -1,3 +1,175 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ─────────────────────────────────────────────────────────────
+   FlowerDough — Modern chic theme layer
+   Paste into app/globals.css (below the Tailwind directives).
+   Works with Tailwind v3 and v4. Font variables (--font-instrument,
+   --font-hanken) come from next/font — see layout-fonts.example.tsx.
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  /* Surfaces */
+  --bone:      #F7F3EC;  /* page background — light oat */
+  --cloud:     #FDFCF9;  /* card / raised surface — warm white */
+  --line:      #E7E0D3;  /* hairline borders */
+
+  /* Ink */
+  --ink:       #241E18;  /* primary text, dark surfaces, primary button */
+  --ink-soft:  #6E655A;  /* secondary / muted text */
+
+  /* Accent — ochre is the one accent */
+  --ochre:      #C0913F;
+  --ochre-deep: #9E7530;  /* accent text / eyebrows / hover */
+
+  /* Quiet secondary — use sparingly */
+  --sage:      #77805A;
+  --sage-deep: #5E664A;
+
+  /* Optional sale/urgency accent (not part of the core palette) */
+  --clay:      #B26248;
+  --clay-deep: #8F4C36;
+
+  --radius: 12px;
+
+  --font-display: var(--font-instrument), Georgia, "Times New Roman", serif;
+  --font-body:    var(--font-hanken), system-ui, -apple-system, sans-serif;
+}
+
+body {
+  background-color: var(--bone);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Big editorial moments — Instrument Serif */
+h1, h2, .font-display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+  line-height: 1.05;
+}
+
+/* Smaller headings ride on the grotesque for a cleaner, modern feel */
+h3, h4 {
+  font-family: var(--font-body);
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: -0.005em;
+}
+
+/* Tracked uppercase eyebrow / label */
+.eyebrow {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ochre-deep);
+}
+
+/* Primary button — solid ink, pill */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--ink);
+  color: var(--bone);
+  padding: 0.8rem 1.6rem;
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.9rem;
+  letter-spacing: 0.03em;
+  transition: opacity 0.2s ease, transform 0.15s ease;
+}
+.btn-primary:hover { opacity: 0.88; }
+.btn-primary:active { transform: scale(0.98); }
+
+/* Secondary button — outlined, quiet */
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  color: var(--ink);
+  padding: calc(0.8rem - 1px) calc(1.6rem - 1px);
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.9rem;
+  letter-spacing: 0.03em;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+.btn-outline:hover { background: var(--ink); color: var(--bone); }
+.btn-outline:active { transform: scale(0.98); }
+
+/* Savings / accent tag — outlined ochre, understated */
+.tag-save {
+  display: inline-block;
+  color: var(--ochre-deep);
+  border: 1px solid #D8C08A;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.7rem;
+  border-radius: 5px;
+}
+
+/* Optional filled sale tag — use clay only when you need urgency */
+.tag-sale {
+  display: inline-block;
+  background: var(--clay);
+  color: #F6E9E3;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.32rem 0.7rem;
+  border-radius: 5px;
+}
+
+/* Card — crisp warm white, thin border */
+.card-chic {
+  background: var(--cloud);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+/* Minimal circular seal — thin ochre ring, tracked caps */
+.seal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 50%;
+  border: 1px solid var(--ochre);
+  color: var(--ochre-deep);
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.56rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  line-height: 1.5;
+}
+
+/* Simple hairline divider */
+.rule {
+  height: 1px;
+  background: var(--line);
+  border: 0;
+}
+
+/* Focus visibility (accessibility floor) */
+:where(a, button, .btn-primary, .btn-outline):focus-visible {
+  outline: 2px solid var(--ochre-deep);
+  outline-offset: 2px;
+}
