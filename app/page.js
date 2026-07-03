@@ -1,53 +1,9 @@
-'use client'
-
-import React, { useState } from 'react';
 import Link from 'next/link';
-import { Menu, X, ChevronRight } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 
 export default function HomePage() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
   return (
     <div className="min-h-screen bg-white">
-      {/* Navigation */}
-      <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
-        <div className="max-w-6xl mx-auto px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20">
-            <Link href="/" className="flex items-center">
-              <span className="text-2xl font-light tracking-wider text-gray-900">FLOWER DOUGH</span>
-            </Link>
-            
-            {/* Desktop Menu */}
-            <div className="hidden md:flex items-center space-x-10">
-              <Link href="/" className="text-sm tracking-wide text-gray-900 border-b-2 border-gray-900 pb-1">HOME</Link>
-              <Link href="/our-story" className="text-sm tracking-wide text-gray-600 hover:text-gray-900 transition">OUR STORY</Link>
-              <Link href="/shop" className="text-sm tracking-wide text-gray-600 hover:text-gray-900 transition">SHOP</Link>
-              <Link href="/memberships" className="text-sm tracking-wide text-gray-600 hover:text-gray-900 transition">MEMBERSHIPS</Link>
-              <Link href="/contact" className="text-sm tracking-wide text-gray-600 hover:text-gray-900 transition">CONTACT</Link>
-            </div>
-
-            {/* Mobile Menu Button */}
-            <button 
-              className="md:hidden text-gray-900"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            >
-              {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </button>
-          </div>
-
-          {/* Mobile Menu */}
-          {mobileMenuOpen && (
-            <div className="md:hidden pb-6 space-y-4">
-              <Link href="/" className="block text-sm tracking-wide text-gray-900">HOME</Link>
-              <Link href="/our-story" className="block text-sm tracking-wide text-gray-600">OUR STORY</Link>
-              <Link href="/shop" className="block text-sm tracking-wide text-gray-600">SHOP</Link>
-              <Link href="/memberships" className="block text-sm tracking-wide text-gray-600">MEMBERSHIPS</Link>
-              <Link href="/contact" className="block text-sm tracking-wide text-gray-600">CONTACT</Link>
-            </div>
-          )}
-        </div>
-      </nav>
-
       {/* Hero Section */}
       <section className="relative">
         <div className="max-w-6xl mx-auto px-6 lg:px-8 py-32 lg:py-40">
@@ -134,14 +90,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="bg-white border-t border-gray-100 py-12">
-        <div className="max-w-6xl mx-auto px-6 lg:px-8 text-center">
-          <p className="text-sm tracking-wider text-gray-900 mb-2">FLOWER DOUGH</p>
-          <p className="text-sm text-gray-500">© 2024 All rights reserved</p>
-        </div>
-      </footer>
     </div>
   );
 }

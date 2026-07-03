@@ -1,4 +1,6 @@
 import './globals.css'
+import Header from './components/Header'
+import Footer from './components/Footer'
 import { Instrument_Serif, Hanken_Grotesk } from "next/font/google";
 
 const instrument = Instrument_Serif({
@@ -23,7 +25,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${instrument.variable} ${hanken.variable}`}>
-      <body>{children}</body>
+      <body>
+        <Header />
+        {children}
+        <Footer />
+      </body>
     </html>
   )
 }
